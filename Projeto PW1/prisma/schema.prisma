@@ -15,26 +15,20 @@ model User {
   name     String
   email    String @unique
   password String
+  posts Post[]
 
   @@map("user")
 }
 
-model Receita {
-  id Int @id @default(autoincrement())
-  name_receita String
-  ingredientes String
-  modo_de_preparo String
-  @@map("receitas")
-}
+model Post {
+  id  Int @id @default(autoincrement())
+  title String @unique
+  description String
+  authorId Int
 
-model Fetilizante {
-  id Int @id @default(autoincrement())
-  name_fetilizante String
-  ingredientes String
-  mode_de_preparo String
-  finalidade String
+  author User @relation(fields: [authorId], references: [id])
 
-  @@map("fertilizantes")
+  @@map("post")
 }
 
 model instituicao {
