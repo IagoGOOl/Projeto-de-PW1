@@ -7,7 +7,7 @@ export class AuteticaControleer {
 		const { email, password } = req.body;
 		const user = await prisma.user.findUnique({ where: { email } });
 		if (!user) {
-			return res.json({ error: 'Usuario ja existe' });
+			return res.json({ error: 'Email inválido' });
 		}
 		const isValuePassword = await compare(password, user.password);
 		if (!isValuePassword) {
