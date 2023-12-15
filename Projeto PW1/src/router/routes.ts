@@ -18,6 +18,9 @@ router.post("/user", userController.create);
 // Rotas da Postagem
 router.post("/post", postController.create);
 router.get("/post", postController.readAll);
+router.get('/post/:userId', postController.readByUser);
+router.put('/post/:postId', postController.update);
+router.delete('/post/:postId', postController.delete);
 
 // Rotas da Instituição
 router.post("/instituicao", instituicaoController.create);
