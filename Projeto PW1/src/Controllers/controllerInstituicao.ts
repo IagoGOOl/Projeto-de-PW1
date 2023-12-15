@@ -43,4 +43,24 @@ export class InstituicaoController {
       res.status(404).json({ message: "Istituição não encontrada" });
     }
   }
+
+  async update(req: Request, res: Response) {
+    const { instituicaoId } = req.params;
+    const { name, latitude, longitude } = req.body;
+    try {
+      const instituicao = await prismaService.instituicao.update({
+        where: {
+          id: Number(instituicaoId),
+        },
+        data: {
+          name,
+          latitude,
+          longitude,
+        },
+      });
+      res.status(200).json({ message: "Instituição atualizada com sucesso" });
+    } catch {
+      res.status(404).json({ message: " Erro ao atualizar a instituição" });
+    }
+  }
 }
