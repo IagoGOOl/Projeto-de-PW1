@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # Banco de dados 
-.db
+/.db/*.sqlite3
