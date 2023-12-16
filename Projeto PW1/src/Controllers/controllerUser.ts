@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import { prismaService } from '../Service/prismaService';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { prismaService } from '../service/prismaService';
 
-const prisma = new PrismaClient();
 export class UserController {
 	async read(req: Request, res: Response) {
 		const id = req.userID;

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { prisma } from '../utils/prisma';
+import { prismaService } from '../service/prismaService';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 export class AuteticaControleer {
 	async auteticacao(req: Request, res: Response) {
 		const { email, password } = req.body;
 
-		const user = await prisma.user.findUnique({ where: { email } });
+		const user = await prismaService.user.findUnique({ where: { email } });
 		if (!user) {
 			return res.status(401).json({ error: 'user or password invalide' });
 		}

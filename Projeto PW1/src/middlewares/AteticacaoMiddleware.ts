@@ -7,7 +7,7 @@ export type tonkenPayload = {
 	exp: number;
 };
 
-export function AuthMiddliwares(
+export function AuthMiddleware(
 	req: Request,
 	res: Response,
 	next: NextFunction
