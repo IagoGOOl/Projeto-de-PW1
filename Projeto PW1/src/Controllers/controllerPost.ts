@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prismaService } from '../service/prismaService';
+import { prismaService } from '../Service/prismaService';
 
 export class PostController {
 	async create(req: Request, res: Response) {

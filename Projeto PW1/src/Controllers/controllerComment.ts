@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prismaService } from '../service/prismaService';
+import { prismaService } from '../Service/prismaService';
 
 function response(res: Response, message: string, status: number = 400) {
 	return res.status(status).json({ message });

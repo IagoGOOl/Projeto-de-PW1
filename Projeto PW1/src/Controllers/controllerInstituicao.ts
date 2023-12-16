@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prismaService } from '../service/prismaService';
+import { prismaService } from '../Service/prismaService';
 import { strict } from 'assert';
 
 export class InstituicaoController {

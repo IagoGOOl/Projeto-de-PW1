@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prismaService } from '../service/prismaService';
+import { prismaService } from '../Service/prismaService';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 export class AuteticaControleer {
