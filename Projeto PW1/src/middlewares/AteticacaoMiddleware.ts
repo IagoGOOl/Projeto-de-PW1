@@ -18,9 +18,9 @@ export function AuthMiddleware(
 		return res.status(401).json({ error: 'token not provided' });
 	}
 
-	const [, token] = authorization.split('');
+	const [, token] = authorization.split(' ');
 	try {
-		const decoded = verify(token, 'secret');
+		const decoded = verify(token, 'chaveSecreta');
 		const { id } = decoded as tonkenPayload;
 		req.userID = Number(id);
 		next();

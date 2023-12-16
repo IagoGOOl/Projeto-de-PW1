@@ -1,4 +1,3 @@
-import multer from 'multer';
 import { Router } from 'express';
 import { UserController } from '../Controllers/controllerUser';
 import { PostController } from '../Controllers/controllerPost';
@@ -6,8 +5,7 @@ import { InstituicaoController } from '../Controllers/controllerInstituicao';
 import { CommentController } from '../Controllers/controllerComment';
 import { AuthMiddleware } from '../middlewares/AteticacaoMiddleware';
 import { AuteticaControleer } from '../Controllers/AuthController';
-
-const upload = multer({ dest: 'uploads/' });
+import { upload } from '../upload';
 
 const router = Router();
 
@@ -32,9 +30,7 @@ router.post(
 	'/user/me/upload',
 	AuthMiddleware,
 	upload.single('image'),
-	(req, res) => {
-		res.json({ message: 'Imagem de perfil enviada com sucesso!' });
-	}
+	userController.updateImage
 );
 
 // Rotas da Postagem

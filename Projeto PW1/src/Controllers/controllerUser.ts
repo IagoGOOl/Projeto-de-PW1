@@ -1,3 +1,4 @@
+import { hash } from 'bcrypt';
 import { Request, Response } from 'express';
 import { prismaService } from '../service/prismaService';
 
@@ -17,17 +18,19 @@ export class UserController {
 
 	async create(req: Request, res: Response) {
 		const { name, email, password } = req.body;
+		const encryptedPassword = await hash(password, 10);
 
 		try {
 			await prismaService.user.create({
 				data: {
 					name,
 					email,
-					password,
+					password: encryptedPassword,
 				},
 			});
 			res.status(201).json({ message: 'Usuário Criado com sucesso' });
 		} catch (err) {
+			console.error(err);
 			res.status(500).json({ message: 'Erro ao criar o Usuário' });
 		}
 	}
@@ -63,5 +66,21 @@ export class UserController {
 		} catch (err) {
 			res.status(500).json({ message: 'Erro ao excluir Usuário' });
 		}
+	}
+
+	async updateImage(req: Request, res: Response) {
+		const { filename } = req?.file || {};
+		const id = req.userID;
+		const image = filename
+			? 'http://localhost:3000/images/' + filename
+			: null;
+		await prismaService.user.update({
+			where: { id },
+			data: { image },
+		});
+		res.status(201).json({
+			message: 'Imagem de perfil salva com sucesso!',
+			image,
+		});
 	}
 }

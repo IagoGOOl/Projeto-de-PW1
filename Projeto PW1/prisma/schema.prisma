@@ -12,6 +12,7 @@ model User {
   name     String
   email    String @unique
   password String
+  image    String?
   posts Post[]
   instituicao_id Int?
   instituicao Instituicao? @relation(fields: [instituicao_id],references: [id])
