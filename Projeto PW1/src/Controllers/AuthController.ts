@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { prisma } from '../utils/prisma';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-
 export class AuteticaControleer {
 	async auteticacao(req: Request, res: Response) {
 		const { email, password } = req.body;
