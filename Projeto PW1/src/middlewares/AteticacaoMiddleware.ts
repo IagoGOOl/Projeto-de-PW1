@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { tonkenPayload } from './auteticar';
+
+export type tonkenPayload = {
+	id: string;
+	iat: number;
+	exp: number;
+};
 
 export function AuthMiddliwares(
 	req: Request,
@@ -17,7 +22,7 @@ export function AuthMiddliwares(
 	try {
 		const decoded = verify(token, 'secret');
 		const { id } = decoded as tonkenPayload;
-		req.userID = id;
+		req.userID = Number(id);
 		next();
 	} catch (error) {
 		return res.status(401).json({ error: 'Token Invalid' });
