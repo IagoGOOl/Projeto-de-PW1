@@ -5,6 +5,7 @@ import { sign } from 'jsonwebtoken';
 export class AuteticaControleer {
 	async auteticacao(req: Request, res: Response) {
 		const { email, password } = req.body;
+
 		const user = await prisma.user.findUnique({ where: { email } });
 		if (!user) {
 			return res.json({ error: 'Email inválido' });
@@ -18,6 +19,6 @@ export class AuteticaControleer {
 		});
 
 		const { id } = user;
-		return res.json({});
+		return res.json({ user: { id, email }, token });
 	}
 }
