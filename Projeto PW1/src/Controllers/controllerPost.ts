@@ -3,24 +3,26 @@ import { prismaService } from '../service/prismaService';
 
 export class PostController {
 	async create(req: Request, res: Response) {
-		const { title, description, email } = req.body;
+		const userId = req.userID;
+		const { title, description } = req.body;
 
-		const userExists = await prismaService.user.findFirst({
-			where: {
-				email,
-			},
-		});
-
-		if (!userExists) {
-			return res.status(400).json({ message: 'Email inválido' });
+		if (!userId) {
+			return res.status(401).json({ message: 'Usuário não autorizado'});
 		}
 
+		if (!title) {
+			return res.status(400).json({ message: 'É necessário um título para criar uma postagem' });
+		}
+
+		if (!description) {
+			return res.status(400).json({ message: 'É necessário uma descrição para criar uma postagem'});
+		}
 		try {
 			await prismaService.post.create({
 				data: {
 					title,
 					description,
-					authorId: userExists.id,
+					authorId: userId,
 				},
 			});
 			res.status(201).json({
@@ -45,17 +47,12 @@ export class PostController {
 	}
 
 	async readByUser(req: Request, res: Response) {
-		const { userId } = req.params;
+		const userId = req.userID;
 
-		const userExists = await prismaService.user.findUnique({
-			where: {
-				id: Number(userId),
-			},
-		});
-
-		if (!userExists) {
-			return res.status(400).json({ message: 'Id de usuário inválido' });
+		if (!userId) {
+			return res.status(401).json({ message: 'Usuário não autorizado'});
 		}
+
 		try {
 			const posts = await prismaService.post.findMany({
 				where: {
@@ -83,6 +80,14 @@ export class PostController {
 
 		if (!post) {
 			return res.status(404).json({ message: 'Postagem não encontrada' });
+		}
+
+		if (!title) {
+			return res.status(400).json({ message: 'É necessário um título para atualizar uma postagem' });
+		}
+
+		if (!description) {
+			return res.status(400).json({ message: 'É necessário uma descrição para atualizar uma postagem'});
 		}
 
 		try {
@@ -113,6 +118,7 @@ export class PostController {
 				id: Number(postId),
 			},
 		});
+		
 		if (!post) {
 			return res.status(404).json({ message: 'Postagem não encontrada' });
 		}
