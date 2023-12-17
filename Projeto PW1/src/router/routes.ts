@@ -39,10 +39,10 @@ router
 	.post(AuthMiddleware, postController.create)
 	.get(AuthMiddleware, postController.readAll);
 router
-	.route('/post/:userId')
-	.get(AuthMiddleware, postController.readByUser)
+	.route('/post/:postId')
 	.patch(AuthMiddleware, postController.update)
 	.delete(AuthMiddleware, postController.delete);
+router.get('/post/user', AuthMiddleware, postController.readByUser)
 
 // Rotas da Instituição
 router
