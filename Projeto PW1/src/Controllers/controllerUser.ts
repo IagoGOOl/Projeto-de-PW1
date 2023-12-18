@@ -18,7 +18,19 @@ export class UserController {
 
   async create(req: Request, res: Response) {
     const { name, email, password } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ error: "Campo name obrigatorio" });
+    }
+    if (!email) {
+      return res.status(400).json({ error: "Campo email obrigatorio" });
+    }
+    if (!password) {
+      return res.status(400).json({ error: "Campo password obrigatorio" });
+    }
+
     const encryptedPassword = await hash(password, 10);
+
 
 	const userAlreadyExists = await prismaService.user.findUnique({
 		where: {
@@ -47,6 +59,16 @@ export class UserController {
   async update(req: Request, res: Response) {
     const { name, email, password } = req.body;
     const id = req.userID;
+
+    if (!name) {
+      return res.status(400).json({ error: "Campo name obrigatorio" });
+    }
+    if (!email) {
+      return res.status(400).json({ error: "Campo email obrigatorio" });
+    }
+    if (!password) {
+      return res.status(400).json({ error: "Campo password obrigatorio" });
+    }
 
     try {
       await prismaService.user.update({
