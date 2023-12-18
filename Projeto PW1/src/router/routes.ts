@@ -26,7 +26,7 @@ router
 	.patch(AuthMiddleware, userController.update)
 	.delete(AuthMiddleware, userController.delete);
 
-router.post(
+router.patch(
 	'/user/me/upload',
 	AuthMiddleware,
 	upload.single('image'),
@@ -40,7 +40,7 @@ router
 	.get(AuthMiddleware, postController.readAll);
 router
 	.route('/post/:postId')
-	.patch(AuthMiddleware, postController.update)
+	.put(AuthMiddleware, postController.update)
 	.delete(AuthMiddleware, postController.delete);
 router.get('/post/user', AuthMiddleware, postController.readByUser)
 
@@ -52,7 +52,7 @@ router
 router
 	.route('/instituicao/:instituicaoId')
 	.delete(AuthMiddleware, instituicaoController.delete)
-	.patch(AuthMiddleware, instituicaoController.update);
+	.put(AuthMiddleware, instituicaoController.update);
 
 // Rotas dos Comentários da Postagem
 router
@@ -62,7 +62,7 @@ router
 router
 	.route('/post/:postId/comment/:id')
 	.get(AuthMiddleware, commentController.read)
-	.patch(AuthMiddleware, commentController.update)
+	.put(AuthMiddleware, commentController.update)
 	.delete(AuthMiddleware, commentController.delete);
 
 export default router;
