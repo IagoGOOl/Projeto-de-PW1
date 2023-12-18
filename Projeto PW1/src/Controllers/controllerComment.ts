@@ -147,7 +147,6 @@ export class CommentController {
   async delete(req: Request, res: Response) {
     const userId = req.userID;
     const { postId, id: commentId } = req.params;
-    const { description } = req.body;
 
     if (!userId) {
       return response(
@@ -171,12 +170,6 @@ export class CommentController {
       );
     }
 
-    if (!description) {
-      return response(res, "Não é possível atualizar um comentário vazio");
-    }
-
-  
-
     try {
       await prismaService.comment.delete({
         where: {
@@ -190,7 +183,7 @@ export class CommentController {
         message: "Comentário deletado com sucesso",
       });
     } catch {
-      response(res, "Não foi possível deletar o comentário", 404);
+      response(res, "Não foi possível deletar o comentário", 403);
     }
   }
 }
