@@ -10,7 +10,7 @@ export class UserController {
       const user = await prismaService.user.findUnique({
         where: { id },
       });
-      res.status(201).json({ user });
+      res.status(200).json({ user });
     } catch (err) {
       res.status(500).json({ message: "Erro ao procurar por Usuário" });
     }
@@ -19,6 +19,16 @@ export class UserController {
   async create(req: Request, res: Response) {
     const { name, email, password } = req.body;
     const encryptedPassword = await hash(password, 10);
+
+	const userAlreadyExists = await prismaService.user.findUnique({
+		where: {
+			email
+		}
+	});
+
+	if (userAlreadyExists) {
+		return res.status(400).json({ error: 'Email já cadastrado'})
+	}
 
     try {
       await prismaService.user.create({
@@ -47,7 +57,7 @@ export class UserController {
           password,
         },
       });
-      res.status(201).json({ message: "Usuário atualizado com sucesso" });
+      res.status(200).json({ message: "Usuário atualizado com sucesso" });
     } catch (err) {
       res.status(500).json({
         message: "Erro ao atualizar dados de Usuário",
@@ -62,7 +72,7 @@ export class UserController {
       await prismaService.user.delete({
         where: { id },
       });
-      res.status(201).json({ message: "Usuário excluido com sucesso" });
+      res.status(200).json({ message: "Usuário excluido com sucesso" });
     } catch (err) {
       res.status(500).json({ message: "Erro ao excluir Usuário" });
     }
@@ -76,7 +86,7 @@ export class UserController {
       where: { id },
       data: { image },
     });
-    res.status(201).json({
+    res.status(200).json({
       message: "Imagem de perfil salva com sucesso!",
       image,
     });
